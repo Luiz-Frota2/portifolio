@@ -3,55 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevCode - Soluções em Programação</title>
+    <title>NexusDev | Programação Futurista</title>
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Anime.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <!-- Fonte Cyberpunk -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --gray: #94a3b8;
+            --neon-blue: #0ff0fc;
+            --neon-pink: #ff2a6d;
+            --dark: #0d0221;
+            --dark-accent: #261447;
+            --light: #d1f7ff;
+            --glow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', sans-serif;
-            transition: background 0.3s, color 0.1s;
+            font-family: 'Rajdhani', sans-serif;
         }
 
         body {
-            background-color: var(--light);
-            color: var(--dark);
-        }
-
-        body.dark-mode {
             background-color: var(--dark);
             color: var(--light);
+            overflow-x: hidden;
+            font-weight: 500;
         }
 
+        h1, h2, h3, h4 {
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Canvas 3D Background */
+        #canvas3d {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        /* Header Futurista */
         header {
             padding: 1.5rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
+            position: fixed;
+            width: 100%;
             top: 0;
-            background-color: var(--light);
             z-index: 100;
-        }
-
-        .dark-mode header {
-            background-color: var(--dark);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            background: rgba(13, 2, 33, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--neon-blue);
+            box-shadow: var(--glow);
         }
 
         .logo {
             font-size: 1.8rem;
             font-weight: 700;
-            color: var(--primary);
+            color: var(--neon-blue);
+            text-shadow: var(--glow);
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 3px;
         }
 
         nav ul {
@@ -62,205 +84,328 @@
 
         nav a {
             text-decoration: none;
-            color: inherit;
+            color: var(--light);
             font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-blue);
+            transition: width 0.4s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
         }
 
         nav a:hover {
-            color: var(--primary);
+            color: var(--neon-blue);
+            text-shadow: var(--glow);
         }
 
-        .toggle-btn {
-            background: none;
-            border: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-            color: inherit;
-        }
-
+        /* Hero Section */
         .hero {
-            padding: 5rem 5%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
         }
 
         .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: textGlow 2s infinite alternate;
+        }
+
+        @keyframes textGlow {
+            0% { text-shadow: 0 0 5px var(--neon-blue); }
+            100% { text-shadow: 0 0 15px var(--neon-pink); }
         }
 
         .hero p {
-            font-size: 1.2rem;
-            color: var(--gray);
-            margin-bottom: 2rem;
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin-bottom: 3rem;
+            line-height: 1.6;
         }
 
         .cta-button {
-            background-color: var(--primary);
-            color: white;
-            padding: 0.8rem 2rem;
-            border: none;
-            border-radius: 5px;
-            font-size: 1rem;
-            font-weight: 600;
+            background: transparent;
+            color: var(--neon-blue);
+            padding: 1rem 2.5rem;
+            border: 2px solid var(--neon-blue);
+            border-radius: 0;
+            font-size: 1.2rem;
+            font-weight: 700;
             cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            box-shadow: var(--glow);
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
         }
 
         .cta-button:hover {
-            transform: translateY(-3px);
-            background-color: var(--primary-dark);
+            background: var(--neon-blue);
+            color: var(--dark);
+            box-shadow: 0 0 20px var(--neon-blue), 0 0 40px var(--neon-blue);
+            transform: translateY(-5px);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 252, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        /* Seções */
+        section {
+            padding: 8rem 5%;
+            position: relative;
         }
 
         .section-title {
             text-align: center;
-            margin-bottom: 3rem;
-            font-size: 2rem;
+            margin-bottom: 5rem;
+            font-size: 3rem;
+            color: var(--neon-blue);
+            text-shadow: var(--glow);
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
-        /* Seção Serviços */
-        .services {
-            padding: 5rem 5%;
-            background-color: rgba(37, 99, 235, 0.05);
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+            box-shadow: var(--glow);
         }
 
-        .dark-mode .services {
-            background-color: rgba(37, 99, 235, 0.1);
-        }
-
+        /* Cards de Serviços */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .service-card {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s;
-            cursor: pointer;
+            background: rgba(38, 20, 71, 0.5);
+            border: 1px solid var(--neon-blue);
+            padding: 2.5rem;
+            border-radius: 5px;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 255, 252, 0.1);
         }
 
-        .dark-mode .service-card {
-            background-color: #334155;
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink));
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s;
         }
 
         .service-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 0 20px rgba(0, 255, 252, 0.3);
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
         }
 
         .service-card h3 {
-            margin-bottom: 1rem;
-            color: var(--primary);
+            color: var(--neon-blue);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
         }
 
         .service-card .price {
-            font-weight: 700;
-            font-size: 1.5rem;
-            margin: 1rem 0;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            margin: 1.5rem 0;
+            color: var(--neon-pink);
+            text-shadow: 0 0 10px var(--neon-pink);
         }
 
-        .service-card .details-btn {
+        .details-btn {
             background: none;
             border: none;
-            color: var(--primary);
-            font-weight: 600;
+            color: var(--neon-blue);
+            font-weight: 700;
             cursor: pointer;
-            padding: 0.5rem 0;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-size: 1.1rem;
+            padding: 0.5rem 0;
+            position: relative;
         }
 
-        /* Seção Portfólio */
-        .portfolio {
-            padding: 5rem 5%;
+        .details-btn::after {
+            content: '→';
+            transition: transform 0.3s;
         }
 
+        .details-btn:hover::after {
+            transform: translateX(5px);
+        }
+
+        /* Carrossel Futurista */
         .portfolio-carousel {
             position: relative;
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             overflow: hidden;
+            border: 1px solid var(--neon-blue);
+            box-shadow: var(--glow);
         }
 
         .carousel-container {
             display: flex;
-            transition: transform 0.5s ease;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .portfolio-item {
             min-width: 100%;
-            padding: 0 1rem;
-            text-align: center;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .portfolio-item img {
-            max-width: 100%;
+            width: 100%;
+            max-width: 800px;
             height: auto;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 1.5rem;
+            border: 1px solid var(--neon-blue);
+            box-shadow: var(--glow);
+            margin-bottom: 2rem;
+            transition: transform 0.4s;
+        }
+
+        .portfolio-item:hover img {
+            transform: scale(1.02);
+        }
+
+        .portfolio-item h3 {
+            color: var(--neon-blue);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .portfolio-item p {
+            max-width: 600px;
+            text-align: center;
+            line-height: 1.6;
         }
 
         .carousel-btn {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background-color: rgba(37, 99, 235, 0.7);
-            color: white;
+            background: rgba(0, 0, 0, 0.7);
+            color: var(--neon-blue);
             border: none;
-            padding: 1rem;
-            cursor: pointer;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             z-index: 10;
+            transition: all 0.3s;
+            box-shadow: var(--glow);
         }
 
         .carousel-btn:hover {
-            background-color: var(--primary);
+            background: var(--neon-blue);
+            color: var(--dark);
+            box-shadow: 0 0 20px var(--neon-blue);
         }
 
         #prevBtn {
-            left: 1rem;
+            left: 2rem;
         }
 
         #nextBtn {
-            right: 1rem;
+            right: 2rem;
         }
 
         .carousel-indicators {
             display: flex;
             justify-content: center;
-            margin-top: 1.5rem;
-            gap: 0.5rem;
+            margin-top: 2rem;
+            gap: 1rem;
         }
 
         .indicator {
-            width: 12px;
-            height: 12px;
+            width: 15px;
+            height: 15px;
             border-radius: 50%;
-            background-color: var(--gray);
+            background: var(--dark-accent);
             cursor: pointer;
+            border: 1px solid var(--neon-blue);
+            transition: all 0.3s;
         }
 
         .indicator.active {
-            background-color: var(--primary);
+            background: var(--neon-blue);
+            box-shadow: var(--glow);
+            transform: scale(1.2);
         }
 
-        /* Seção Contato */
-        .contact {
-            padding: 5rem 5%;
+        /* Formulário Futurista */
+        .contact-form {
             max-width: 600px;
             margin: 0 auto;
-        }
-
-        .contact-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
         }
 
         .form-group {
@@ -269,38 +414,41 @@
             gap: 0.5rem;
         }
 
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
         .form-group label {
-            font-weight: 500;
+            color: var(--neon-blue);
+            font-weight: 700;
+            letter-spacing: 1px;
         }
 
         .form-group input,
         .form-group textarea,
         .form-group select {
-            padding: 0.8rem;
-            border: 1px solid var(--gray);
-            border-radius: 5px;
-            background-color: transparent;
-            color: inherit;
-        }
-
-        .dark-mode .form-group input,
-        .dark-mode .form-group textarea,
-        .dark-mode .form-group select {
-            border-color: #475569;
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem;
-            background-color: var(--dark);
+            padding: 1rem;
+            background: rgba(38, 20, 71, 0.5);
+            border: 1px solid var(--neon-blue);
             color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s;
         }
 
-        .dark-mode footer {
-            background-color: #0f172a;
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            box-shadow: var(--glow);
+            border-color: var(--neon-pink);
         }
 
-        /* Modal */
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* Modal Cyberpunk */
         .modal {
             display: none;
             position: fixed;
@@ -308,78 +456,140 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.9);
             z-index: 1000;
             justify-content: center;
             align-items: center;
+            backdrop-filter: blur(5px);
         }
 
         .modal-content {
-            background-color: var(--light);
-            padding: 2rem;
-            border-radius: 10px;
-            max-width: 600px;
+            background: linear-gradient(135deg, #1a0933, #0d0221);
+            padding: 3rem;
+            border-radius: 5px;
+            max-width: 700px;
             width: 90%;
-            max-height: 80vh;
+            max-height: 90vh;
             overflow-y: auto;
             position: relative;
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 30px var(--neon-blue);
+            animation: modalEntrance 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
-        .dark-mode .modal-content {
-            background-color: #334155;
+        @keyframes modalEntrance {
+            from { opacity: 0; transform: scale(0.8) rotateX(-15deg); }
+            to { opacity: 1; transform: scale(1) rotateX(0); }
         }
 
         .close-modal {
             position: absolute;
             top: 1rem;
             right: 1rem;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
             background: none;
             border: none;
-            color: var(--gray);
+            color: var(--neon-pink);
+            transition: transform 0.3s;
+        }
+
+        .close-modal:hover {
+            transform: rotate(90deg);
+            color: var(--neon-blue);
         }
 
         .modal h2 {
-            color: var(--primary);
-            margin-bottom: 1rem;
+            color: var(--neon-blue);
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+            text-shadow: var(--glow);
         }
 
         .modal-price {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin: 1rem 0;
-            color: var(--primary);
+            font-size: 2rem;
+            font-family: 'Orbitron', sans-serif;
+            margin: 1.5rem 0;
+            color: var(--neon-pink);
+            text-shadow: 0 0 10px var(--neon-pink);
         }
 
         .modal-features {
-            margin: 1.5rem 0;
+            margin: 2rem 0;
         }
 
         .modal-features li {
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            list-style-type: '▹ ';
             list-style-position: inside;
+            line-height: 1.6;
+            position: relative;
+            padding-left: 1rem;
         }
 
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .modal-features li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.7rem;
+            width: 8px;
+            height: 8px;
+            background: var(--neon-blue);
+            border-radius: 50%;
         }
 
-        .animate {
-            animation: fadeIn 0.8s ease-out forwards;
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem;
+            background: var(--dark-accent);
+            position: relative;
+            overflow: hidden;
         }
 
-        .delay-1 { animation-delay: 0.2s; }
-        .delay-2 { animation-delay: 0.4s; }
-        .delay-3 { animation-delay: 0.6s; }
-        .delay-4 { animation-delay: 0.8s; }
-        .delay-5 { animation-delay: 1s; }
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+            box-shadow: var(--glow);
+        }
+
+        footer p {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+        }
+
+        /* Efeitos de Partículas */
+        .particle {
+            position: absolute;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Responsividade */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .contact-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+        }
 
         @media (max-width: 768px) {
             .hero h1 {
-                font-size: 2.2rem;
+                font-size: 2.5rem;
             }
             
             nav ul {
@@ -387,14 +597,33 @@
             }
             
             .carousel-btn {
-                padding: 0.7rem;
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .service-card {
+                padding: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Canvas 3D para efeito futurista -->
+    <div id="canvas3d"></div>
+
     <header>
-        <div class="logo">DevCode</div>
+        <div class="logo">NEXUSDEV</div>
         <nav>
             <ul>
                 <li><a href="#services">Serviços</a></li>
@@ -402,144 +631,86 @@
                 <li><a href="#contact">Contato</a></li>
             </ul>
         </nav>
-        <button class="toggle-btn" id="toggleDarkMode">☀️</button>
     </header>
 
     <main>
         <section class="hero">
-            <h1 class="animate">Soluções em Programação Sob Medida</h1>
-            <p class="animate delay-1">Desenvolvemos sistemas web, aplicativos mobile e soluções digitais para alavancar seu negócio.</p>
-            <button class="cta-button animate delay-2" id="ctaButton">Fale Conosco</button>
+            <h1 class="hero-title">Desenvolvimento <span>Futurista</span></h1>
+            <p class="hero-subtitle">Criamos soluções digitais que transcendem o convencional, combinando tecnologia de ponta com design inovador.</p>
+            <button class="cta-button" id="ctaButton">Inicie seu Projeto</button>
+            
+            <!-- Efeito de partículas -->
+            <div class="particles"></div>
         </section>
 
         <section class="services" id="services">
-            <h2 class="section-title animate">Nossos Serviços</h2>
+            <h2 class="section-title">Nossos Serviços</h2>
             <div class="services-grid">
                 <!-- Landing Page -->
-                <div class="service-card animate delay-1" onclick="openModal('landing-page')">
+                <div class="service-card" onclick="openModal('landing-page')">
                     <h3>Landing Page</h3>
-                    <p>Página única responsiva com formulário de contato e SEO básico.</p>
+                    <p>Página única de alta conversão com efeitos visuais impressionantes.</p>
                     <div class="price">R$ 1.200 - R$ 3.000</div>
-                    <button class="details-btn">Ver detalhes →</button>
+                    <button class="details-btn">Detalhes</button>
                 </div>
 
                 <!-- Site Institucional -->
-                <div class="service-card animate delay-2" onclick="openModal('site-institucional')">
+                <div class="service-card" onclick="openModal('site-institucional')">
                     <h3>Site Institucional</h3>
-                    <p>Site com 5-10 páginas, design moderno e CMS opcional.</p>
+                    <p>Presença digital com identidade visual futurista e interações imersivas.</p>
                     <div class="price">R$ 3.500 - R$ 8.000</div>
-                    <button class="details-btn">Ver detalhes →</button>
+                    <button class="details-btn">Detalhes</button>
                 </div>
 
                 <!-- Loja Virtual -->
-                <div class="service-card animate delay-3" onclick="openModal('e-commerce')">
+                <div class="service-card" onclick="openModal('e-commerce')">
                     <h3>Loja Virtual</h3>
-                    <p>E-commerce completo com pagamentos e painel administrativo.</p>
+                    <p>E-commerce com realidade aumentada e checkout ultrarrápido.</p>
                     <div class="price">R$ 8.000 - R$ 25.000</div>
-                    <button class="details-btn">Ver detalhes →</button>
+                    <button class="details-btn">Detalhes</button>
                 </div>
 
                 <!-- App Mobile -->
-                <div class="service-card animate delay-1" onclick="openModal('app-mobile')">
+                <div class="service-card" onclick="openModal('app-mobile')">
                     <h3>Aplicativo Mobile</h3>
-                    <p>App iOS/Android com 5-10 telas e integrações essenciais.</p>
+                    <p>Experiências móveis com IA, AR e desempenho excepcional.</p>
                     <div class="price">R$ 15.000 - R$ 40.000</div>
-                    <button class="details-btn">Ver detalhes →</button>
-                </div>
-
-                <!-- Sistema Web -->
-                <div class="service-card animate delay-2" onclick="openModal('sistema-web')">
-                    <h3>Sistema Web</h3>
-                    <p>ERP, CRM ou sistema personalizado com banco de dados.</p>
-                    <div class="price">R$ 20.000 - R$ 80.000</div>
-                    <button class="details-btn">Ver detalhes →</button>
-                </div>
-
-                <!-- Blog -->
-                <div class="service-card animate delay-3" onclick="openModal('blog')">
-                    <h3>Blog Personalizado</h3>
-                    <p>Blog com WordPress ou desenvolvimento customizado.</p>
-                    <div class="price">R$ 2.000 - R$ 6.000</div>
-                    <button class="details-btn">Ver detalhes →</button>
-                </div>
-
-                <!-- Integração API -->
-                <div class="service-card animate delay-4" onclick="openModal('api')">
-                    <h3>Integração de API</h3>
-                    <p>Conexão com PagSeguro, WhatsApp, Correios, etc.</p>
-                    <div class="price">R$ 1.500 - R$ 7.000</div>
-                    <button class="details-btn">Ver detalhes →</button>
-                </div>
-
-                <!-- Manutenção -->
-                <div class="service-card animate delay-5" onclick="openModal('manutencao')">
-                    <h3>Manutenção Mensal</h3>
-                    <p>Atualizações, backups e suporte técnico contínuo.</p>
-                    <div class="price">R$ 500 - R$ 3.000/mês</div>
-                    <button class="details-btn">Ver detalhes →</button>
+                    <button class="details-btn">Detalhes</button>
                 </div>
             </div>
         </section>
 
-        <!-- Seção Portfólio -->
         <section class="portfolio" id="portfolio">
-            <h2 class="section-title animate">Nossos Modelos</h2>
+            <h2 class="section-title">Portfólio</h2>
             <div class="portfolio-carousel">
                 <button class="carousel-btn" id="prevBtn">❮</button>
                 <div class="carousel-container" id="carousel">
                     <!-- Item 1 -->
                     <div class="portfolio-item">
-                        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Landing Page">
-                        <h3>Landing Page - Modelo Tech</h3>
-                        <p>Design moderno com foco em alta conversão para startups de tecnologia</p>
+                        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Cyber Store">
+                        <h3>Cyber Store</h3>
+                        <p>E-commerce com realidade aumentada para visualização de produtos em 3D e checkout em criptomoedas.</p>
                     </div>
                     <!-- Item 2 -->
                     <div class="portfolio-item">
-                        <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="E-commerce">
-                        <h3>Loja Virtual - Moda Fitness</h3>
-                        <p>E-commerce completo com vitrine de produtos e checkout otimizado</p>
+                        <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Neon Dashboard">
+                        <h3>Neon Dashboard</h3>
+                        <p>Painel administrativo com visualização de dados em tempo real e inteligência artificial preditiva.</p>
                     </div>
                     <!-- Item 3 -->
                     <div class="portfolio-item">
-                        <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="App Mobile">
-                        <h3>Aplicativo - Delivery Food</h3>
-                        <p>Solução mobile com geolocalização e integração com pagamentos</p>
-                    </div>
-                    <!-- Item 4 -->
-                    <div class="portfolio-item">
-                        <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Sistema Web">
-                        <h3>Sistema - Gestão Comercial</h3>
-                        <p>ERP completo com controle de estoque, vendas e relatórios</p>
+                        <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Quantum App">
+                        <h3>Quantum App</h3>
+                        <p>Aplicativo de produtividade com interface neural e integração com dispositivos IoT.</p>
                     </div>
                 </div>
                 <button class="carousel-btn" id="nextBtn">❯</button>
-                <div class="carousel-indicators" id="indicators">
-                    <!-- Indicadores serão gerados via JS -->
-                </div>
+                <div class="carousel-indicators" id="indicators"></div>
             </div>
         </section>
 
-        <!-- Modais -->
-        <div class="modal" id="modal">
-            <div class="modal-content">
-                <button class="close-modal" onclick="closeModal()">×</button>
-                <h2 id="modal-title">Título do Serviço</h2>
-                <div class="modal-price" id="modal-price">R$ 0,00</div>
-                <p id="modal-description">Descrição detalhada do serviço.</p>
-                
-                <div class="modal-features">
-                    <h3>Inclui:</h3>
-                    <ul id="modal-features">
-                        <!-- Features serão adicionadas via JS -->
-                    </ul>
-                </div>
-
-                <button class="cta-button" onclick="closeModal(); document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })">Solicitar Orçamento</button>
-            </div>
-        </div>
-
         <section class="contact" id="contact">
-            <h2 class="section-title">Orçamento</h2>
+            <h2 class="section-title">Contato</h2>
             <form class="contact-form" id="contactForm">
                 <div class="form-group">
                     <label for="name">Nome</label>
@@ -558,224 +729,160 @@
                         <option value="e-commerce">Loja Virtual</option>
                         <option value="app-mobile">Aplicativo Mobile</option>
                         <option value="sistema-web">Sistema Web</option>
-                        <option value="blog">Blog Personalizado</option>
-                        <option value="api">Integração de API</option>
-                        <option value="manutencao">Manutenção Mensal</option>
                         <option value="outro">Outro</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group full-width">
                     <label for="message">Detalhes do Projeto</label>
                     <textarea id="message" rows="5" required></textarea>
                 </div>
-                <button type="submit" class="cta-button">Envir Orçamento</button>
+                <div class="form-group full-width">
+                    <button type="submit" class="cta-button">Enviar Mensagem</button>
+                </div>
             </form>
         </section>
+
+        <!-- Modal -->
+        <div class="modal" id="modal">
+            <div class="modal-content">
+                <button class="close-modal" onclick="closeModal()">×</button>
+                <h2 id="modal-title">Título do Serviço</h2>
+                <div class="modal-price" id="modal-price">R$ 0,00</div>
+                <p id="modal-description">Descrição detalhada do serviço.</p>
+                
+                <div class="modal-features">
+                    <h3>Tecnologias Incluídas:</h3>
+                    <ul id="modal-features"></ul>
+                </div>
+
+                <button class="cta-button" onclick="closeModal(); document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })">Solicitar Orçamento</button>
+            </div>
+        </div>
     </main>
 
     <footer>
-        <p>© 2023 DevCode. Todos os direitos reservados.</p>
+        <p>© 2023 NEXUSDEV | Tecnologia do Futuro</p>
     </footer>
 
     <script>
-        // Dados dos serviços
-        const services = {
-            'landing-page': {
-                title: 'Landing Page Profissional',
-                price: 'R$ 1.200 - R$ 3.000',
-                description: 'Página única de alta conversão para capturar leads ou promover seu produto/serviço.',
-                features: [
-                    'Design responsivo (mobile, tablet, desktop)',
-                    'Formulário de contato integrado',
-                    'Otimização básica para SEO',
-                    'Integração com redes sociais',
-                    'Hospedagem básica por 1 mês',
-                    'Prazo: 5-10 dias úteis'
-                ]
-            },
-            'site-institucional': {
-                title: 'Site Institucional',
-                price: 'R$ 3.500 - R$ 8.000',
-                description: 'Site completo para apresentar sua empresa com profissionalismo e credibilidade.',
-                features: [
-                    '5-10 páginas personalizadas',
-                    'Design moderno e responsivo',
-                    'CMS (WordPress ou similar) opcional',
-                    'Galeria de imagens/vídeos',
-                    'Blog integrado (opcional)',
-                    'Formulários de contato',
-                    'Prazo: 15-30 dias úteis'
-                ]
-            },
-            'e-commerce': {
-                title: 'Loja Virtual (E-commerce)',
-                price: 'R$ 8.000 - R$ 25.000',
-                description: 'Solução completa para vender seus produtos online com segurança e eficiência.',
-                features: [
-                    'Carrinho de compras',
-                    'Integração com gateways de pagamento',
-                    'Painel administrativo completo',
-                    'Gestão de estoque',
-                    'Relatórios de vendas',
-                    'Design responsivo',
-                    'SEO básico para produtos',
-                    'Prazo: 30-60 dias úteis'
-                ]
-            },
-            'app-mobile': {
-                title: 'Aplicativo Mobile',
-                price: 'R$ 15.000 - R$ 40.000',
-                description: 'Aplicativo nativo ou multiplataforma para iOS e Android.',
-                features: [
-                    '5-10 telas principais',
-                    'Integração com APIs',
-                    'Push notifications',
-                    'Autenticação de usuários',
-                    'Publicação nas lojas (App Store e Play Store)',
-                    '1 mês de suporte pós-lançamento',
-                    'Prazo: 2-4 meses'
-                ]
-            },
-            'sistema-web': {
-                title: 'Sistema Web Personalizado',
-                price: 'R$ 20.000 - R$ 80.000',
-                description: 'Solução sob medida para gestão de processos específicos do seu negócio.',
-                features: [
-                    'Desenvolvimento full-stack',
-                    'Banco de dados personalizado',
-                    'Painel administrativo completo',
-                    'Relatórios customizados',
-                    'Integração com outros sistemas',
-                    'Autenticação e níveis de acesso',
-                    'Suporte inicial por 3 meses',
-                    'Prazo: 3-6 meses'
-                ]
-            },
-            'blog': {
-                title: 'Blog Personalizado',
-                price: 'R$ 2.000 - R$ 6.000',
-                description: 'Plataforma para compartilhar conteúdo e engajar seu público.',
-                features: [
-                    'Design exclusivo ou tema premium',
-                    'Sistema de categorias/tags',
-                    'Editor de texto avançado',
-                    'Comentários e interação',
-                    'Integração com redes sociais',
-                    'SEO otimizado',
-                    'Prazo: 7-15 dias úteis'
-                ]
-            },
-            'api': {
-                title: 'Integração de API',
-                price: 'R$ 1.500 - R$ 7.000',
-                description: 'Conecte seu sistema com serviços externos como pagamentos, redes sociais e mais.',
-                features: [
-                    'Integração com APIs populares',
-                    'Documentação técnica',
-                    'Testes de segurança',
-                    'Manutenção por 1 mês',
-                    'Exemplos de implementação',
-                    'Suporte para desenvolvedores'
-                ]
-            },
-            'manutencao': {
-                title: 'Manutenção Mensal',
-                price: 'R$ 500 - R$ 3.000/mês',
-                description: 'Pacote de manutenção contínua para manter seu site/sistema sempre atualizado.',
-                features: [
-                    'Atualizações de segurança',
-                    'Backups regulares',
-                    'Suporte técnico por e-mail/chat',
-                    'Relatórios mensais',
-                    'Otimizações periódicas',
-                    'Correção de bugs',
-                    'Pacotes personalizáveis'
-                ]
-            }
-        };
-
-        // Dark Mode Toggle
-        const toggleBtn = document.getElementById('toggleDarkMode');
-        toggleBtn.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            toggleBtn.textContent = document.body.classList.contains('dark-mode') ? '🌙' : '☀️';
-        });
-
-        // Form Submission
-        const contactForm = document.getElementById('contactForm');
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('name').value;
-            const service = document.getElementById('service').value;
+        // ============ THREE.JS BACKGROUND ============
+        const canvasContainer = document.getElementById('canvas3d');
+        
+        // Cena
+        const scene = new THREE.Scene();
+        
+        // Câmera
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 5;
+        
+        // Renderer
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        canvasContainer.appendChild(renderer.domElement);
+        
+        // Geometrias
+        const geometries = [
+            new THREE.TorusGeometry(1, 0.4, 16, 32),
+            new THREE.BoxGeometry(1.5, 1.5, 1.5),
+            new THREE.OctahedronGeometry(1.3),
+            new THREE.IcosahedronGeometry(1.2)
+        ];
+        
+        // Materiais neon
+        const materials = [
+            new THREE.MeshBasicMaterial({ color: 0x0ff0fc, wireframe: true }),
+            new THREE.MeshBasicMaterial({ color: 0xff2a6d, wireframe: true }),
+            new THREE.MeshBasicMaterial({ color: 0x00ff88, wireframe: true })
+        ];
+        
+        // Criar objetos 3D
+        const objects = [];
+        for (let i = 0; i < 10; i++) {
+            const geometry = geometries[Math.floor(Math.random() * geometries.length)];
+            const material = materials[Math.floor(Math.random() * materials.length)];
+            const mesh = new THREE.Mesh(geometry, material);
             
-            alert(`Obrigado, ${name}! Seu orçamento para ${service} foi enviado. Entraremos em contato em 24h.`);
-            contactForm.reset();
-        });
-
-        // Smooth Scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        // CTA Button Click
-        document.getElementById('ctaButton').addEventListener('click', () => {
-            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
-        });
-
-        // Modal Functions
-        function openModal(serviceId) {
-            const service = services[serviceId];
-            const modal = document.getElementById('modal');
+            // Posição aleatória
+            mesh.position.x = (Math.random() - 0.5) * 20;
+            mesh.position.y = (Math.random() - 0.5) * 20;
+            mesh.position.z = (Math.random() - 0.5) * 20;
             
-            document.getElementById('modal-title').textContent = service.title;
-            document.getElementById('modal-price').textContent = service.price;
-            document.getElementById('modal-description').textContent = service.description;
+            // Rotação aleatória
+            mesh.rotation.x = Math.random() * Math.PI;
+            mesh.rotation.y = Math.random() * Math.PI;
             
-            const featuresList = document.getElementById('modal-features');
-            featuresList.innerHTML = '';
-            service.features.forEach(feature => {
-                const li = document.createElement('li');
-                li.textContent = feature;
-                featuresList.appendChild(li);
-            });
+            // Velocidade de rotação
+            mesh.userData = {
+                speedX: Math.random() * 0.01 - 0.005,
+                speedY: Math.random() * 0.01 - 0.005
+            };
             
-            // Atualiza o select no formulário
-            document.getElementById('service').value = serviceId;
-            
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
+            scene.add(mesh);
+            objects.push(mesh);
         }
-
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        // Fecha modal ao clicar fora do conteúdo
-        window.addEventListener('click', (e) => {
-            if (e.target === document.getElementById('modal')) {
-                closeModal();
-            }
-        });
-
-        // Animation on Scroll
-        const animateElements = document.querySelectorAll('.animate');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('fadeIn');
-                }
+        
+        // Animação
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            objects.forEach(obj => {
+                obj.rotation.x += obj.userData.speedX;
+                obj.rotation.y += obj.userData.speedY;
             });
-        }, { threshold: 0.1 });
-
-        animateElements.forEach(el => observer.observe(el));
-
-        // Carrossel de Portfólio
+            
+            renderer.render(scene, camera);
+        }
+        
+        // Redimensionamento
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+        
+        animate();
+        
+        // ============ ANIME.JS ANIMAÇÕES ============
+        // Animação do título hero
+        anime({
+            targets: '.hero-title',
+            opacity: [0, 1],
+            translateY: [50, 0],
+            duration: 1200,
+            easing: 'easeOutExpo'
+        });
+        
+        // Animação do subtítulo
+        anime({
+            targets: '.hero-subtitle',
+            opacity: [0, 1],
+            translateY: [30, 0],
+            duration: 1000,
+            delay: 500,
+            easing: 'easeOutExpo'
+        });
+        
+        // Animação do botão CTA
+        anime({
+            targets: '#ctaButton',
+            opacity: [0, 1],
+            translateY: [40, 0],
+            duration: 800,
+            delay: 1000,
+            easing: 'easeOutBack'
+        });
+        
+        // Animação dos cards de serviço
+        anime({
+            targets: '.service-card',
+            opacity: [0, 1],
+            translateY: [60, 0],
+            duration: 1000,
+            delay: anime.stagger(200),
+            easing: 'easeOutExpo'
+        });
+        
+        // ============ CARROSSEL ============
         const carousel = document.getElementById('carousel');
         const items = document.querySelectorAll('.portfolio-item');
         const prevBtn = document.getElementById('prevBtn');
@@ -785,7 +892,7 @@
         let currentIndex = 0;
         const totalItems = items.length;
         
-        // Cria indicadores
+        // Criar indicadores
         for (let i = 0; i < totalItems; i++) {
             const indicator = document.createElement('div');
             indicator.classList.add('indicator');
@@ -800,6 +907,15 @@
             // Atualiza indicadores
             document.querySelectorAll('.indicator').forEach((ind, index) => {
                 ind.classList.toggle('active', index === currentIndex);
+            });
+            
+            // Efeito de entrada anime.js
+            anime({
+                targets: items[currentIndex],
+                opacity: [0.5, 1],
+                scale: [0.95, 1],
+                duration: 600,
+                easing: 'easeOutExpo'
             });
         }
         
@@ -821,8 +937,206 @@
         prevBtn.addEventListener('click', prevItem);
         nextBtn.addEventListener('click', nextItem);
         
-        // Auto-rotate (opcional)
-        // setInterval(nextItem, 5000);
+        // Auto-rotação
+        let carouselInterval = setInterval(nextItem, 5000);
+        
+        // Pausa ao passar o mouse
+        document.querySelector('.portfolio-carousel').addEventListener('mouseenter', () => {
+            clearInterval(carouselInterval);
+        });
+        
+        document.querySelector('.portfolio-carousel').addEventListener('mouseleave', () => {
+            carouselInterval = setInterval(nextItem, 5000);
+        });
+        
+        // ============ MODAL ============
+        const services = {
+            'landing-page': {
+                title: 'Landing Page Cyberpunk',
+                price: 'R$ 1.200 - R$ 3.000',
+                description: 'Página de conversão com efeitos visuais impressionantes e design futurista que impressiona seus visitantes.',
+                features: [
+                    'Design responsivo com efeitos parallax',
+                    'Animações WebGL e Three.js',
+                    'Formulário inteligente com validação em tempo real',
+                    'Integração com APIs de marketing',
+                    'Otimização para máxima conversão',
+                    'Hospedagem premium por 1 mês'
+                ]
+            },
+            'site-institucional': {
+                title: 'Site Institucional Futurista',
+                price: 'R$ 3.500 - R$ 8.000',
+                description: 'Presença digital que combina identidade visual impactante com tecnologia de ponta para destacar sua marca.',
+                features: [
+                    '5-10 páginas com design personalizado',
+                    'Efeitos de scroll personalizados',
+                    'Sistema de gerenciamento de conteúdo',
+                    'Galeria 3D para produtos/serviços',
+                    'Blog integrado com compartilhamento avançado',
+                    'SEO otimizado para novas tecnologias'
+                ]
+            },
+            'e-commerce': {
+                title: 'E-commerce Next-Gen',
+                price: 'R$ 8.000 - R$ 25.000',
+                description: 'Plataforma de vendas com tecnologias emergentes para oferecer a melhor experiência de compra online.',
+                features: [
+                    'Visualização de produtos em 3D/AR',
+                    'Checkout em uma página com múltiplos pagamentos',
+                    'Sistema de recomendação por IA',
+                    'Integração com marketplaces e ERPs',
+                    'Painel administrativo completo',
+                    'Relatórios de inteligência de negócios'
+                ]
+            },
+            'app-mobile': {
+                title: 'Aplicativo Mobile Avançado',
+                price: 'R$ 15.000 - R$ 40.000',
+                description: 'Experiências móveis que aproveitam o máximo dos dispositivos modernos com tecnologias de ponta.',
+                features: [
+                    'Desenvolvimento nativo ou cross-platform',
+                    'Integração com sensores do dispositivo',
+                    'Realidade aumentada e machine learning',
+                    'Notificações inteligentes',
+                    'Publicação nas lojas de aplicativos',
+                    'Manutenção pós-lançamento'
+                ]
+            }
+        };
+        
+        function openModal(serviceId) {
+            const service = services[serviceId];
+            const modal = document.getElementById('modal');
+            
+            document.getElementById('modal-title').textContent = service.title;
+            document.getElementById('modal-price').textContent = service.price;
+            document.getElementById('modal-description').textContent = service.description;
+            
+            const featuresList = document.getElementById('modal-features');
+            featuresList.innerHTML = '';
+            service.features.forEach(feature => {
+                const li = document.createElement('li');
+                li.textContent = feature;
+                featuresList.appendChild(li);
+            });
+            
+            // Atualiza o select no formulário
+            document.getElementById('service').value = serviceId;
+            
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            // Animação de entrada
+            anime({
+                targets: '.modal-content',
+                scale: [0.9, 1],
+                opacity: [0, 1],
+                duration: 600,
+                easing: 'easeOutExpo'
+            });
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            
+            // Animação de saída
+            anime({
+                targets: '.modal-content',
+                scale: 0.9,
+                opacity: 0,
+                duration: 400,
+                easing: 'easeInExpo',
+                complete: () => {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        }
+        
+        // Fecha modal ao clicar fora
+        window.addEventListener('click', (e) => {
+            if (e.target === document.getElementById('modal')) {
+                closeModal();
+            }
+        });
+        
+        // ============ FORMULÁRIO ============
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const service = document.getElementById('service').value;
+            
+            // Animação de envio
+            anime({
+                targets: '#contactForm button',
+                scale: [1, 0.9, 1],
+                backgroundColor: ['#0ff0fc', '#ff2a6d'],
+                duration: 800,
+                easing: 'easeInOutExpo'
+            });
+            
+            // Feedback visual
+            setTimeout(() => {
+                alert(`Obrigado, ${name}! Seu orçamento para ${service} foi enviado. Entraremos em contato em 24h.`);
+                contactForm.reset();
+            }, 800);
+        });
+        
+        // ============ SCROLL SUAVE ============
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                anime({
+                    targets: document.documentElement,
+                    scrollTop: targetElement.offsetTop - 100,
+                    duration: 1000,
+                    easing: 'easeInOutExpo'
+                });
+            });
+        });
+        
+        // ============ PARTÍCULAS INTERATIVAS ============
+        document.addEventListener('mousemove', (e) => {
+            const particlesContainer = document.querySelector('.particles');
+            
+            // Cria partícula
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            // Posiciona na posição do mouse
+            particle.style.left = `${e.clientX}px`;
+            particle.style.top = `${e.clientY}px`;
+            
+            // Tamanho aleatório
+            const size = Math.random() * 5 + 2;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            
+            // Cor aleatória
+            const colors = ['#0ff0fc', '#ff2a6d', '#00ff88'];
+            particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            // Adiciona ao container
+            particlesContainer.appendChild(particle);
+            
+            // Animação da partícula
+            anime({
+                targets: particle,
+                translateX: () => anime.random(-50, 50),
+                translateY: () => anime.random(-50, 50),
+                opacity: [1, 0],
+                duration: 1000,
+                easing: 'easeOutExpo',
+                complete: () => particle.remove()
+            });
+        });
     </script>
 </body>
 </html>
