@@ -3,91 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexusDev | Programação Futurista</title>
-    <!-- Three.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <!-- Anime.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    <!-- Fonte Cyberpunk -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <title>CodeCraft | Soluções em Desenvolvimento</title>
+    <!-- Fonte Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ícones -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Biblioteca de Animações -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         :root {
-            --neon-blue: #0ff0fc;
-            --neon-pink: #ff2a6d;
-            --dark: #0d0221;
-            --dark-accent: #261447;
-            --light: #d1f7ff;
-            --glow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --success: #4cc9f0;
+            --warning: #f72585;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Rajdhani', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         body {
-            background-color: var(--dark);
-            color: var(--light);
-            overflow-x: hidden;
-            font-weight: 500;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
         }
 
-        h1, h2, h3, h4 {
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* Canvas 3D Background */
-        #canvas3d {
-            position: fixed;
-            top: 0;
-            left: 0;
+        /* Layout Base */
+        .container {
             width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.3;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
-        /* Header Futurista */
+        section {
+            padding: 80px 0;
+        }
+
+        /* Header Moderno */
         header {
-            padding: 1.5rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            background-color: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            padding: 10px 0;
+        }
+
+        .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 100;
-            background: rgba(13, 2, 33, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--neon-blue);
-            box-shadow: var(--glow);
+            padding: 20px 0;
         }
 
         .logo {
             font-size: 1.8rem;
             font-weight: 700;
-            color: var(--neon-blue);
-            text-shadow: var(--glow);
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 3px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 1.5rem;
         }
 
         nav ul {
             display: flex;
-            gap: 2rem;
             list-style: none;
+            gap: 30px;
         }
 
         nav a {
             text-decoration: none;
-            color: var(--light);
+            color: var(--dark);
             font-weight: 500;
             position: relative;
-            padding: 0.5rem 0;
+            padding: 5px 0;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--primary);
         }
 
         nav a::after {
@@ -97,321 +110,273 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: var(--neon-blue);
-            transition: width 0.4s ease;
+            background-color: var(--primary);
+            transition: width 0.3s;
         }
 
         nav a:hover::after {
             width: 100%;
         }
 
-        nav a:hover {
-            color: var(--neon-blue);
-            text-shadow: var(--glow);
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
         }
 
         /* Hero Section */
         .hero {
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            text-align: center;
-            padding: 0 5%;
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(255, 255, 255, 1) 100%);
             position: relative;
             overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 600px;
         }
 
         .hero h1 {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: textGlow 2s infinite alternate;
-        }
-
-        @keyframes textGlow {
-            0% { text-shadow: 0 0 5px var(--neon-blue); }
-            100% { text-shadow: 0 0 15px var(--neon-pink); }
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
         }
 
         .hero p {
-            font-size: 1.5rem;
-            max-width: 800px;
-            margin-bottom: 3rem;
-            line-height: 1.6;
-        }
-
-        .cta-button {
-            background: transparent;
-            color: var(--neon-blue);
-            padding: 1rem 2.5rem;
-            border: 2px solid var(--neon-blue);
-            border-radius: 0;
             font-size: 1.2rem;
-            font-weight: 700;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
+            color: var(--gray);
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
             transition: all 0.3s;
-            box-shadow: var(--glow);
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 2px;
+            border: 2px solid var(--primary);
         }
 
-        .cta-button:hover {
-            background: var(--neon-blue);
-            color: var(--dark);
-            box-shadow: 0 0 20px var(--neon-blue), 0 0 40px var(--neon-blue);
-            transform: translateY(-5px);
+        .btn:hover {
+            background-color: transparent;
+            color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.2);
         }
 
-        .cta-button::before {
-            content: '';
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            margin-left: 15px;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .hero-image {
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 252, 0.2), transparent);
-            transition: 0.5s;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50%;
+            max-width: 600px;
+            animation: float 6s ease-in-out infinite;
         }
 
-        .cta-button:hover::before {
-            left: 100%;
+        @keyframes float {
+            0% { transform: translateY(-50%) translateX(0); }
+            50% { transform: translateY(-50%) translateX(-20px); }
+            100% { transform: translateY(-50%) translateX(0); }
         }
 
-        /* Seções */
-        section {
-            padding: 8rem 5%;
-            position: relative;
-        }
-
+        /* Seção Serviços */
         .section-title {
             text-align: center;
-            margin-bottom: 5rem;
-            font-size: 3rem;
-            color: var(--neon-blue);
-            text-shadow: var(--glow);
-            position: relative;
-            display: inline-block;
-            left: 50%;
-            transform: translateX(-50%);
+            margin-bottom: 60px;
         }
 
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
-            box-shadow: var(--glow);
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 15px;
         }
 
-        /* Cards de Serviços */
+        .section-title p {
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            gap: 30px;
         }
 
         .service-card {
-            background: rgba(38, 20, 71, 0.5);
-            border: 1px solid var(--neon-blue);
-            padding: 2.5rem;
-            border-radius: 5px;
-            transition: all 0.4s;
-            position: relative;
+            background-color: white;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 0 10px rgba(0, 255, 252, 0.1);
-        }
-
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink));
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.4s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
         }
 
         .service-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 0 20px rgba(0, 255, 252, 0.3);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
         }
 
-        .service-card:hover::before {
-            opacity: 1;
-        }
-
-        .service-card h3 {
-            color: var(--neon-blue);
-            margin-bottom: 1.5rem;
-            font-size: 1.8rem;
-        }
-
-        .service-card .price {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            margin: 1.5rem 0;
-            color: var(--neon-pink);
-            text-shadow: 0 0 10px var(--neon-pink);
-        }
-
-        .details-btn {
-            background: none;
-            border: none;
-            color: var(--neon-blue);
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1.1rem;
-            padding: 0.5rem 0;
-            position: relative;
-        }
-
-        .details-btn::after {
-            content: '→';
-            transition: transform 0.3s;
-        }
-
-        .details-btn:hover::after {
-            transform: translateX(5px);
-        }
-
-        /* Carrossel Futurista */
-        .portfolio-carousel {
-            position: relative;
-            max-width: 1200px;
-            margin: 0 auto;
-            overflow: hidden;
-            border: 1px solid var(--neon-blue);
-            box-shadow: var(--glow);
-        }
-
-        .carousel-container {
-            display: flex;
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .portfolio-item {
-            min-width: 100%;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .portfolio-item img {
+        .service-card img {
             width: 100%;
-            max-width: 800px;
-            height: auto;
-            border: 1px solid var(--neon-blue);
-            box-shadow: var(--glow);
-            margin-bottom: 2rem;
-            transition: transform 0.4s;
+            height: 200px;
+            object-fit: cover;
         }
 
-        .portfolio-item:hover img {
-            transform: scale(1.02);
+        .service-content {
+            padding: 25px;
         }
 
-        .portfolio-item h3 {
-            color: var(--neon-blue);
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        .portfolio-item p {
-            max-width: 600px;
-            text-align: center;
-            line-height: 1.6;
-        }
-
-        .carousel-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.7);
-            color: var(--neon-blue);
-            border: none;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            cursor: pointer;
+        .service-content h3 {
             font-size: 1.5rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-            transition: all 0.3s;
-            box-shadow: var(--glow);
-        }
-
-        .carousel-btn:hover {
-            background: var(--neon-blue);
+            margin-bottom: 15px;
             color: var(--dark);
-            box-shadow: 0 0 20px var(--neon-blue);
         }
 
-        #prevBtn {
-            left: 2rem;
+        .service-content p {
+            color: var(--gray);
+            margin-bottom: 20px;
         }
 
-        #nextBtn {
-            right: 2rem;
+        .price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: block;
         }
 
-        .carousel-indicators {
+        /* Seção Processo */
+        .process-steps {
             display: flex;
-            justify-content: center;
-            margin-top: 2rem;
-            gap: 1rem;
+            justify-content: space-between;
+            margin-top: 50px;
+            position: relative;
         }
 
-        .indicator {
-            width: 15px;
-            height: 15px;
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-light);
+            z-index: 1;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            width: 23%;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background-color: var(--primary);
+            color: white;
             border-radius: 50%;
-            background: var(--dark-accent);
-            cursor: pointer;
-            border: 1px solid var(--neon-blue);
-            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0 auto 20px;
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
         }
 
-        .indicator.active {
-            background: var(--neon-blue);
-            box-shadow: var(--glow);
-            transform: scale(1.2);
+        .step h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--dark);
         }
 
-        /* Formulário Futurista */
-        .contact-form {
-            max-width: 600px;
+        .step p {
+            color: var(--gray);
+        }
+
+        /* Seção Depoimentos */
+        .testimonials {
+            background-color: #f5f7ff;
+            position: relative;
+        }
+
+        .testimonial-slider {
+            max-width: 800px;
             margin: 0 auto;
+            position: relative;
+        }
+
+        .testimonial {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            margin: 20px;
+        }
+
+        .client-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 20px;
+            border: 3px solid var(--primary-light);
+        }
+
+        .client-rating {
+            color: #ffc107;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .client-name {
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        .client-role {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        /* Seção Contato */
+        .contact-form {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 2rem;
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+            margin-bottom: 20px;
         }
 
         .form-group.full-width {
@@ -419,18 +384,19 @@
         }
 
         .form-group label {
-            color: var(--neon-blue);
-            font-weight: 700;
-            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
         }
 
         .form-group input,
         .form-group textarea,
         .form-group select {
-            padding: 1rem;
-            background: rgba(38, 20, 71, 0.5);
-            border: 1px solid var(--neon-blue);
-            color: var(--light);
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
             font-size: 1rem;
             transition: all 0.3s;
         }
@@ -439,8 +405,8 @@
         .form-group textarea:focus,
         .form-group select:focus {
             outline: none;
-            box-shadow: var(--glow);
-            border-color: var(--neon-pink);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
         }
 
         .form-group textarea {
@@ -448,134 +414,165 @@
             resize: vertical;
         }
 
-        /* Modal Cyberpunk */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-content {
-            background: linear-gradient(135deg, #1a0933, #0d0221);
-            padding: 3rem;
-            border-radius: 5px;
-            max-width: 700px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            border: 1px solid var(--neon-blue);
-            box-shadow: 0 0 30px var(--neon-blue);
-            animation: modalEntrance 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-
-        @keyframes modalEntrance {
-            from { opacity: 0; transform: scale(0.8) rotateX(-15deg); }
-            to { opacity: 1; transform: scale(1) rotateX(0); }
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 1.8rem;
-            cursor: pointer;
-            background: none;
-            border: none;
-            color: var(--neon-pink);
-            transition: transform 0.3s;
-        }
-
-        .close-modal:hover {
-            transform: rotate(90deg);
-            color: var(--neon-blue);
-        }
-
-        .modal h2 {
-            color: var(--neon-blue);
-            margin-bottom: 1.5rem;
-            font-size: 2.5rem;
-            text-shadow: var(--glow);
-        }
-
-        .modal-price {
-            font-size: 2rem;
-            font-family: 'Orbitron', sans-serif;
-            margin: 1.5rem 0;
-            color: var(--neon-pink);
-            text-shadow: 0 0 10px var(--neon-pink);
-        }
-
-        .modal-features {
-            margin: 2rem 0;
-        }
-
-        .modal-features li {
-            margin-bottom: 1rem;
-            list-style-type: '▹ ';
-            list-style-position: inside;
-            line-height: 1.6;
-            position: relative;
-            padding-left: 1rem;
-        }
-
-        .modal-features li::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0.7rem;
-            width: 8px;
-            height: 8px;
-            background: var(--neon-blue);
-            border-radius: 50%;
-        }
-
         /* Footer */
         footer {
-            text-align: center;
-            padding: 3rem;
-            background: var(--dark-accent);
-            position: relative;
-            overflow: hidden;
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
         }
 
-        footer::before {
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
             content: '';
             position: absolute;
-            top: 0;
+            bottom: 0;
             left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
-            box-shadow: var(--glow);
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary);
         }
 
-        footer p {
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 2px;
+        .footer-column p {
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.7);
         }
 
-        /* Efeitos de Partículas */
-        .particle {
-            position: absolute;
-            background: var(--neon-blue);
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
-            pointer-events: none;
-            z-index: -1;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
         }
 
         /* Responsividade */
         @media (max-width: 992px) {
             .hero h1 {
-                font-size: 3rem;
+                font-size: 2.8rem;
+            }
+            
+            .hero-image {
+                width: 45%;
+                opacity: 0.8;
+            }
+            
+            .process-steps {
+                flex-wrap: wrap;
+            }
+            
+            .step {
+                width: 48%;
+                margin-bottom: 40px;
+            }
+            
+            .process-steps::before {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            nav {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                padding: 20px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                transform: translateY(-150%);
+                transition: transform 0.3s ease;
+            }
+            
+            nav.active {
+                transform: translateY(0);
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .hero {
+                text-align: center;
+                padding-top: 100px;
+                height: auto;
+            }
+            
+            .hero-content {
+                margin: 0 auto;
+            }
+            
+            .hero-image {
+                position: relative;
+                width: 100%;
+                max-width: 500px;
+                margin: 50px auto 0;
+                transform: none;
+                right: auto;
+                top: auto;
+            }
+            
+            .btn-outline {
+                margin-left: 0;
+                margin-top: 15px;
             }
             
             .contact-form {
@@ -585,507 +582,308 @@
             .form-group.full-width {
                 grid-column: span 1;
             }
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
             
-            nav ul {
-                gap: 1rem;
-            }
-            
-            .carousel-btn {
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
+            .step {
+                width: 100%;
             }
         }
 
         @media (max-width: 576px) {
             .hero h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
             
-            .section-title {
+            .section-title h2 {
                 font-size: 2rem;
             }
             
             .service-card {
-                padding: 1.5rem;
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Canvas 3D para efeito futurista -->
-    <div id="canvas3d"></div>
-
-    <header>
-        <div class="logo">NEXUSDEV</div>
-        <nav>
-            <ul>
-                <li><a href="#services">Serviços</a></li>
-                <li><a href="#portfolio">Portfólio</a></li>
-                <li><a href="#contact">Contato</a></li>
-            </ul>
-        </nav>
+    <!-- Header -->
+    <header id="header">
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-code"></i>
+                <span>CodeCraft</span>
+            </a>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="#services">Serviços</a></li>
+                    <li><a href="#process">Processo</a></li>
+                    <li><a href="#testimonials">Depoimentos</a></li>
+                    <li><a href="#contact">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
-    <main>
-        <section class="hero">
-            <h1 class="hero-title">Desenvolvimento <span>Futurista</span></h1>
-            <p class="hero-subtitle">Criamos soluções digitais que transcendem o convencional, combinando tecnologia de ponta com design inovador.</p>
-            <button class="cta-button" id="ctaButton">Inicie seu Projeto</button>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content" data-aos="fade-right">
+                <h1>Soluções Digitais Sob Medida</h1>
+                <p>Desenvolvemos sistemas web e aplicativos mobile que impulsionam seu negócio com tecnologia de ponta e design intuitivo.</p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn">Solicitar Orçamento</a>
+                    <a href="#services" class="btn btn-outline">Nossos Serviços</a>
+                </div>
+            </div>
             
-            <!-- Efeito de partículas -->
-            <div class="particles"></div>
-        </section>
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Desenvolvimento Web" class="hero-image" data-aos="fade-left">
+        </div>
+    </section>
 
-        <section class="services" id="services">
-            <h2 class="section-title">Nossos Serviços</h2>
+    <!-- Serviços -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Nossos Serviços</h2>
+                <p>Oferecemos soluções completas para sua presença digital, desde sites simples até sistemas complexos.</p>
+            </div>
+            
             <div class="services-grid">
                 <!-- Landing Page -->
-                <div class="service-card" onclick="openModal('landing-page')">
-                    <h3>Landing Page</h3>
-                    <p>Página única de alta conversão com efeitos visuais impressionantes.</p>
-                    <div class="price">R$ 1.200 - R$ 3.000</div>
-                    <button class="details-btn">Detalhes</button>
+                <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                    <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Landing Page">
+                    <div class="service-content">
+                        <h3>Landing Page</h3>
+                        <p>Página única de alta conversão para capturar leads ou promover seu produto/serviço.</p>
+                        <span class="price">R$ 1.200 - R$ 3.000</span>
+                        <a href="#contact" class="btn">Solicitar</a>
+                    </div>
                 </div>
-
+                
                 <!-- Site Institucional -->
-                <div class="service-card" onclick="openModal('site-institucional')">
-                    <h3>Site Institucional</h3>
-                    <p>Presença digital com identidade visual futurista e interações imersivas.</p>
-                    <div class="price">R$ 3.500 - R$ 8.000</div>
-                    <button class="details-btn">Detalhes</button>
+                <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Site Institucional">
+                    <div class="service-content">
+                        <h3>Site Institucional</h3>
+                        <p>Site completo para apresentar sua empresa com profissionalismo e credibilidade.</p>
+                        <span class="price">R$ 3.500 - R$ 8.000</span>
+                        <a href="#contact" class="btn">Solicitar</a>
+                    </div>
                 </div>
-
+                
                 <!-- Loja Virtual -->
-                <div class="service-card" onclick="openModal('e-commerce')">
-                    <h3>Loja Virtual</h3>
-                    <p>E-commerce com realidade aumentada e checkout ultrarrápido.</p>
-                    <div class="price">R$ 8.000 - R$ 25.000</div>
-                    <button class="details-btn">Detalhes</button>
-                </div>
-
-                <!-- App Mobile -->
-                <div class="service-card" onclick="openModal('app-mobile')">
-                    <h3>Aplicativo Mobile</h3>
-                    <p>Experiências móveis com IA, AR e desempenho excepcional.</p>
-                    <div class="price">R$ 15.000 - R$ 40.000</div>
-                    <button class="details-btn">Detalhes</button>
+                <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                    <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Loja Virtual">
+                    <div class="service-content">
+                        <h3>Loja Virtual</h3>
+                        <p>Plataforma completa para vender seus produtos online com segurança e eficiência.</p>
+                        <span class="price">R$ 8.000 - R$ 25.000</span>
+                        <a href="#contact" class="btn">Solicitar</a>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="portfolio" id="portfolio">
-            <h2 class="section-title">Portfólio</h2>
-            <div class="portfolio-carousel">
-                <button class="carousel-btn" id="prevBtn">❮</button>
-                <div class="carousel-container" id="carousel">
-                    <!-- Item 1 -->
-                    <div class="portfolio-item">
-                        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Cyber Store">
-                        <h3>Cyber Store</h3>
-                        <p>E-commerce com realidade aumentada para visualização de produtos em 3D e checkout em criptomoedas.</p>
-                    </div>
-                    <!-- Item 2 -->
-                    <div class="portfolio-item">
-                        <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Neon Dashboard">
-                        <h3>Neon Dashboard</h3>
-                        <p>Painel administrativo com visualização de dados em tempo real e inteligência artificial preditiva.</p>
-                    </div>
-                    <!-- Item 3 -->
-                    <div class="portfolio-item">
-                        <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Quantum App">
-                        <h3>Quantum App</h3>
-                        <p>Aplicativo de produtividade com interface neural e integração com dispositivos IoT.</p>
-                    </div>
-                </div>
-                <button class="carousel-btn" id="nextBtn">❯</button>
-                <div class="carousel-indicators" id="indicators"></div>
+    <!-- Processo -->
+    <section id="process" class="process">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Nosso Processo</h2>
+                <p>Trabalhamos com metodologia ágil para entregar resultados rápidos e de alta qualidade.</p>
             </div>
-        </section>
+            
+            <div class="process-steps">
+                <!-- Passo 1 -->
+                <div class="step" data-aos="fade-up" data-aos-delay="100">
+                    <div class="step-number">1</div>
+                    <h3>Briefing</h3>
+                    <p>Entendemos suas necessidades e objetivos para criar a solução perfeita.</p>
+                </div>
+                
+                <!-- Passo 2 -->
+                <div class="step" data-aos="fade-up" data-aos-delay="200">
+                    <div class="step-number">2</div>
+                    <h3>Protótipo</h3>
+                    <p>Criamos um protótipo interativo para validação antes do desenvolvimento.</p>
+                </div>
+                
+                <!-- Passo 3 -->
+                <div class="step" data-aos="fade-up" data-aos-delay="300">
+                    <div class="step-number">3</div>
+                    <h3>Desenvolvimento</h3>
+                    <p>Implementamos todas as funcionalidades com tecnologia moderna.</p>
+                </div>
+                
+                <!-- Passo 4 -->
+                <div class="step" data-aos="fade-up" data-aos-delay="400">
+                    <div class="step-number">4</div>
+                    <h3>Entrega</h3>
+                    <p>Realizamos testes e entregamos o projeto pronto para uso.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <section class="contact" id="contact">
-            <h2 class="section-title">Contato</h2>
-            <form class="contact-form" id="contactForm">
+    <!-- Depoimentos -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>O que nossos clientes dizem</h2>
+                <p>Confira feedbacks de quem já contratou nossos serviços.</p>
+            </div>
+            
+            <div class="testimonial-slider" data-aos="fade-up">
+                <div class="testimonial">
+                    <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Cliente" class="client-avatar">
+                    <div class="client-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p>"O site que a CodeCraft desenvolveu superou todas as nossas expectativas. O processo foi transparente e o resultado final excelente!"</p>
+                    <h4 class="client-name">Ana Silva</h4>
+                    <p class="client-role">CEO, TechSolutions</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contato -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Entre em Contato</h2>
+                <p>Solicite um orçamento ou tire suas dúvidas sobre nossos serviços.</p>
+            </div>
+            
+            <form class="contact-form" data-aos="fade-up" data-aos-delay="100">
                 <div class="form-group">
                     <label for="name">Nome</label>
                     <input type="text" id="name" required>
                 </div>
+                
                 <div class="form-group">
                     <label for="email">E-mail</label>
                     <input type="email" id="email" required>
                 </div>
+                
                 <div class="form-group">
-                    <label for="service">Serviço</label>
+                    <label for="phone">Telefone</label>
+                    <input type="tel" id="phone">
+                </div>
+                
+                <div class="form-group">
+                    <label for="service">Serviço de Interesse</label>
                     <select id="service" required>
                         <option value="">Selecione...</option>
                         <option value="landing-page">Landing Page</option>
                         <option value="site-institucional">Site Institucional</option>
                         <option value="e-commerce">Loja Virtual</option>
                         <option value="app-mobile">Aplicativo Mobile</option>
-                        <option value="sistema-web">Sistema Web</option>
                         <option value="outro">Outro</option>
                     </select>
                 </div>
+                
                 <div class="form-group full-width">
-                    <label for="message">Detalhes do Projeto</label>
-                    <textarea id="message" rows="5" required></textarea>
+                    <label for="message">Mensagem</label>
+                    <textarea id="message" required></textarea>
                 </div>
+                
                 <div class="form-group full-width">
-                    <button type="submit" class="cta-button">Enviar Mensagem</button>
+                    <button type="submit" class="btn">Enviar Mensagem</button>
                 </div>
             </form>
-        </section>
+        </div>
+    </section>
 
-        <!-- Modal -->
-        <div class="modal" id="modal">
-            <div class="modal-content">
-                <button class="close-modal" onclick="closeModal()">×</button>
-                <h2 id="modal-title">Título do Serviço</h2>
-                <div class="modal-price" id="modal-price">R$ 0,00</div>
-                <p id="modal-description">Descrição detalhada do serviço.</p>
-                
-                <div class="modal-features">
-                    <h3>Tecnologias Incluídas:</h3>
-                    <ul id="modal-features"></ul>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>CodeCraft</h3>
+                    <p>Especialistas em desenvolvimento web e mobile, criando soluções digitais que impulsionam negócios.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
                 </div>
-
-                <button class="cta-button" onclick="closeModal(); document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })">Solicitar Orçamento</button>
+                
+                <div class="footer-column">
+                    <h3>Serviços</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Landing Pages</a></li>
+                        <li><a href="#">Sites Institucionais</a></li>
+                        <li><a href="#">Lojas Virtuais</a></li>
+                        <li><a href="#">Aplicativos Mobile</a></li>
+                        <li><a href="#">Sistemas Web</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Links Úteis</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Portfólio</a></li>
+                        <li><a href="#">Processo</a></li>
+                        <li><a href="#">Termos de Serviço</a></li>
+                        <li><a href="#">Política de Privacidade</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contato</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> São Paulo, SP</p>
+                    <p><i class="fas fa-phone"></i> (11) 99999-9999</p>
+                    <p><i class="fas fa-envelope"></i> contato@codecraft.com</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 CodeCraft. Todos os direitos reservados.</p>
             </div>
         </div>
-    </main>
-
-    <footer>
-        <p>© 2023 NEXUSDEV | Tecnologia do Futuro</p>
     </footer>
 
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // ============ THREE.JS BACKGROUND ============
-        const canvasContainer = document.getElementById('canvas3d');
-        
-        // Cena
-        const scene = new THREE.Scene();
-        
-        // Câmera
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.z = 5;
-        
-        // Renderer
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        canvasContainer.appendChild(renderer.domElement);
-        
-        // Geometrias
-        const geometries = [
-            new THREE.TorusGeometry(1, 0.4, 16, 32),
-            new THREE.BoxGeometry(1.5, 1.5, 1.5),
-            new THREE.OctahedronGeometry(1.3),
-            new THREE.IcosahedronGeometry(1.2)
-        ];
-        
-        // Materiais neon
-        const materials = [
-            new THREE.MeshBasicMaterial({ color: 0x0ff0fc, wireframe: true }),
-            new THREE.MeshBasicMaterial({ color: 0xff2a6d, wireframe: true }),
-            new THREE.MeshBasicMaterial({ color: 0x00ff88, wireframe: true })
-        ];
-        
-        // Criar objetos 3D
-        const objects = [];
-        for (let i = 0; i < 10; i++) {
-            const geometry = geometries[Math.floor(Math.random() * geometries.length)];
-            const material = materials[Math.floor(Math.random() * materials.length)];
-            const mesh = new THREE.Mesh(geometry, material);
-            
-            // Posição aleatória
-            mesh.position.x = (Math.random() - 0.5) * 20;
-            mesh.position.y = (Math.random() - 0.5) * 20;
-            mesh.position.z = (Math.random() - 0.5) * 20;
-            
-            // Rotação aleatória
-            mesh.rotation.x = Math.random() * Math.PI;
-            mesh.rotation.y = Math.random() * Math.PI;
-            
-            // Velocidade de rotação
-            mesh.userData = {
-                speedX: Math.random() * 0.01 - 0.005,
-                speedY: Math.random() * 0.01 - 0.005
-            };
-            
-            scene.add(mesh);
-            objects.push(mesh);
-        }
-        
-        // Animação
-        function animate() {
-            requestAnimationFrame(animate);
-            
-            objects.forEach(obj => {
-                obj.rotation.x += obj.userData.speedX;
-                obj.rotation.y += obj.userData.speedY;
-            });
-            
-            renderer.render(scene, camera);
-        }
-        
-        // Redimensionamento
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-        
-        animate();
-        
-        // ============ ANIME.JS ANIMAÇÕES ============
-        // Animação do título hero
-        anime({
-            targets: '.hero-title',
-            opacity: [0, 1],
-            translateY: [50, 0],
-            duration: 1200,
-            easing: 'easeOutExpo'
-        });
-        
-        // Animação do subtítulo
-        anime({
-            targets: '.hero-subtitle',
-            opacity: [0, 1],
-            translateY: [30, 0],
-            duration: 1000,
-            delay: 500,
-            easing: 'easeOutExpo'
-        });
-        
-        // Animação do botão CTA
-        anime({
-            targets: '#ctaButton',
-            opacity: [0, 1],
-            translateY: [40, 0],
+        // Inicializa AOS (Animate On Scroll)
+        AOS.init({
             duration: 800,
-            delay: 1000,
-            easing: 'easeOutBack'
+            once: true,
+            easing: 'ease-in-out'
         });
         
-        // Animação dos cards de serviço
-        anime({
-            targets: '.service-card',
-            opacity: [0, 1],
-            translateY: [60, 0],
-            duration: 1000,
-            delay: anime.stagger(200),
-            easing: 'easeOutExpo'
-        });
-        
-        // ============ CARROSSEL ============
-        const carousel = document.getElementById('carousel');
-        const items = document.querySelectorAll('.portfolio-item');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const indicatorsContainer = document.getElementById('indicators');
-        
-        let currentIndex = 0;
-        const totalItems = items.length;
-        
-        // Criar indicadores
-        for (let i = 0; i < totalItems; i++) {
-            const indicator = document.createElement('div');
-            indicator.classList.add('indicator');
-            if (i === 0) indicator.classList.add('active');
-            indicator.addEventListener('click', () => goToItem(i));
-            indicatorsContainer.appendChild(indicator);
-        }
-        
-        function updateCarousel() {
-            carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
-            
-            // Atualiza indicadores
-            document.querySelectorAll('.indicator').forEach((ind, index) => {
-                ind.classList.toggle('active', index === currentIndex);
-            });
-            
-            // Efeito de entrada anime.js
-            anime({
-                targets: items[currentIndex],
-                opacity: [0.5, 1],
-                scale: [0.95, 1],
-                duration: 600,
-                easing: 'easeOutExpo'
-            });
-        }
-        
-        function goToItem(index) {
-            currentIndex = index;
-            updateCarousel();
-        }
-        
-        function nextItem() {
-            currentIndex = (currentIndex + 1) % totalItems;
-            updateCarousel();
-        }
-        
-        function prevItem() {
-            currentIndex = (currentIndex - 1 + totalItems) % totalItems;
-            updateCarousel();
-        }
-        
-        prevBtn.addEventListener('click', prevItem);
-        nextBtn.addEventListener('click', nextItem);
-        
-        // Auto-rotação
-        let carouselInterval = setInterval(nextItem, 5000);
-        
-        // Pausa ao passar o mouse
-        document.querySelector('.portfolio-carousel').addEventListener('mouseenter', () => {
-            clearInterval(carouselInterval);
-        });
-        
-        document.querySelector('.portfolio-carousel').addEventListener('mouseleave', () => {
-            carouselInterval = setInterval(nextItem, 5000);
-        });
-        
-        // ============ MODAL ============
-        const services = {
-            'landing-page': {
-                title: 'Landing Page Cyberpunk',
-                price: 'R$ 1.200 - R$ 3.000',
-                description: 'Página de conversão com efeitos visuais impressionantes e design futurista que impressiona seus visitantes.',
-                features: [
-                    'Design responsivo com efeitos parallax',
-                    'Animações WebGL e Three.js',
-                    'Formulário inteligente com validação em tempo real',
-                    'Integração com APIs de marketing',
-                    'Otimização para máxima conversão',
-                    'Hospedagem premium por 1 mês'
-                ]
-            },
-            'site-institucional': {
-                title: 'Site Institucional Futurista',
-                price: 'R$ 3.500 - R$ 8.000',
-                description: 'Presença digital que combina identidade visual impactante com tecnologia de ponta para destacar sua marca.',
-                features: [
-                    '5-10 páginas com design personalizado',
-                    'Efeitos de scroll personalizados',
-                    'Sistema de gerenciamento de conteúdo',
-                    'Galeria 3D para produtos/serviços',
-                    'Blog integrado com compartilhamento avançado',
-                    'SEO otimizado para novas tecnologias'
-                ]
-            },
-            'e-commerce': {
-                title: 'E-commerce Next-Gen',
-                price: 'R$ 8.000 - R$ 25.000',
-                description: 'Plataforma de vendas com tecnologias emergentes para oferecer a melhor experiência de compra online.',
-                features: [
-                    'Visualização de produtos em 3D/AR',
-                    'Checkout em uma página com múltiplos pagamentos',
-                    'Sistema de recomendação por IA',
-                    'Integração com marketplaces e ERPs',
-                    'Painel administrativo completo',
-                    'Relatórios de inteligência de negócios'
-                ]
-            },
-            'app-mobile': {
-                title: 'Aplicativo Mobile Avançado',
-                price: 'R$ 15.000 - R$ 40.000',
-                description: 'Experiências móveis que aproveitam o máximo dos dispositivos modernos com tecnologias de ponta.',
-                features: [
-                    'Desenvolvimento nativo ou cross-platform',
-                    'Integração com sensores do dispositivo',
-                    'Realidade aumentada e machine learning',
-                    'Notificações inteligentes',
-                    'Publicação nas lojas de aplicativos',
-                    'Manutenção pós-lançamento'
-                ]
-            }
-        };
-        
-        function openModal(serviceId) {
-            const service = services[serviceId];
-            const modal = document.getElementById('modal');
-            
-            document.getElementById('modal-title').textContent = service.title;
-            document.getElementById('modal-price').textContent = service.price;
-            document.getElementById('modal-description').textContent = service.description;
-            
-            const featuresList = document.getElementById('modal-features');
-            featuresList.innerHTML = '';
-            service.features.forEach(feature => {
-                const li = document.createElement('li');
-                li.textContent = feature;
-                featuresList.appendChild(li);
-            });
-            
-            // Atualiza o select no formulário
-            document.getElementById('service').value = serviceId;
-            
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-            
-            // Animação de entrada
-            anime({
-                targets: '.modal-content',
-                scale: [0.9, 1],
-                opacity: [0, 1],
-                duration: 600,
-                easing: 'easeOutExpo'
-            });
-        }
-        
-        function closeModal() {
-            const modal = document.getElementById('modal');
-            
-            // Animação de saída
-            anime({
-                targets: '.modal-content',
-                scale: 0.9,
-                opacity: 0,
-                duration: 400,
-                easing: 'easeInExpo',
-                complete: () => {
-                    modal.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                }
-            });
-        }
-        
-        // Fecha modal ao clicar fora
-        window.addEventListener('click', (e) => {
-            if (e.target === document.getElementById('modal')) {
-                closeModal();
+        // Header scroll effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
             }
         });
         
-        // ============ FORMULÁRIO ============
-        const contactForm = document.getElementById('contactForm');
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const name = document.getElementById('name').value;
-            const service = document.getElementById('service').value;
-            
-            // Animação de envio
-            anime({
-                targets: '#contactForm button',
-                scale: [1, 0.9, 1],
-                backgroundColor: ['#0ff0fc', '#ff2a6d'],
-                duration: 800,
-                easing: 'easeInOutExpo'
-            });
-            
-            // Feedback visual
-            setTimeout(() => {
-                alert(`Obrigado, ${name}! Seu orçamento para ${service} foi enviado. Entraremos em contato em 24h.`);
-                contactForm.reset();
-            }, 800);
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mainNav = document.getElementById('mainNav');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+            mobileMenuBtn.innerHTML = mainNav.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
         });
         
-        // ============ SCROLL SUAVE ============
+        // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -1093,48 +891,53 @@
                 const targetId = this.getAttribute('href');
                 const targetElement = document.querySelector(targetId);
                 
-                anime({
-                    targets: document.documentElement,
-                    scrollTop: targetElement.offsetTop - 100,
-                    duration: 1000,
-                    easing: 'easeInOutExpo'
+                // Fecha o menu mobile se estiver aberto
+                if (mainNav.classList.contains('active')) {
+                    mainNav.classList.remove('active');
+                    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
                 });
             });
         });
         
-        // ============ PARTÍCULAS INTERATIVAS ============
-        document.addEventListener('mousemove', (e) => {
-            const particlesContainer = document.querySelector('.particles');
+        // Form submission
+        const contactForm = document.querySelector('.contact-form');
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
             
-            // Cria partícula
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
+            // Simula o envio do formulário
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
             
-            // Posiciona na posição do mouse
-            particle.style.left = `${e.clientX}px`;
-            particle.style.top = `${e.clientY}px`;
+            submitBtn.textContent = 'Enviando...';
+            submitBtn.disabled = true;
             
-            // Tamanho aleatório
-            const size = Math.random() * 5 + 2;
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
+            setTimeout(() => {
+                submitBtn.textContent = 'Mensagem Enviada!';
+                submitBtn.style.backgroundColor = '#4BB543';
+                
+                setTimeout(() => {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                    submitBtn.style.backgroundColor = '';
+                    contactForm.reset();
+                }, 2000);
+            }, 1500);
+        });
+        
+        // Service cards interaction
+        const serviceCards = document.querySelectorAll('.service-card');
+        serviceCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.querySelector('.btn').style.backgroundColor = '#3a56e8';
+            });
             
-            // Cor aleatória
-            const colors = ['#0ff0fc', '#ff2a6d', '#00ff88'];
-            particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            
-            // Adiciona ao container
-            particlesContainer.appendChild(particle);
-            
-            // Animação da partícula
-            anime({
-                targets: particle,
-                translateX: () => anime.random(-50, 50),
-                translateY: () => anime.random(-50, 50),
-                opacity: [1, 0],
-                duration: 1000,
-                easing: 'easeOutExpo',
-                complete: () => particle.remove()
+            card.addEventListener('mouseleave', () => {
+                card.querySelector('.btn').style.backgroundColor = '';
             });
         });
     </script>
