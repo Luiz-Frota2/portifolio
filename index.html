@@ -601,6 +601,55 @@
                 text-align: center;
             }
         }
+        .carousel {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.service-card {
+    min-width: 300px; /* Ajuste conforme desejado */
+    margin: 0 10px;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.5);
+    border: none;
+    color: white;
+    font-size: 2rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+}
+
+.carousel-btn.prev {
+    left: 10px;
+}
+
+.carousel-btn.next {
+    right: 10px;
+}
+
+@media(max-width: 768px){
+    .service-card {
+        min-width: 80%;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -643,17 +692,18 @@
         </div>
     </section>
 
-    <!-- Serviços -->
-    <section id="services" class="services">
-        <div class="container">
-            <div class="section-title" data-aos="fade-up">
-                <h2>Nossos Serviços</h2>
-                <p>Oferecemos soluções completas para sua presença digital, desde sites simples até sistemas complexos.</p>
-            </div>
-            
-            <div class="services-grid">
-                <!-- Landing Page -->
-                <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+<!-- Serviços -->
+<section id="services" class="services">
+    <div class="container">
+        <div class="section-title" data-aos="fade-up">
+            <h2>Nossos Serviços</h2>
+            <p>Oferecemos soluções completas para sua presença digital, desde sites simples até sistemas complexos.</p>
+        </div>
+
+        <div class="carousel">
+            <div class="carousel-track">
+                <!-- Cada card dentro do track -->
+                <div class="service-card">
                     <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Landing Page">
                     <div class="service-content">
                         <h3>Landing Page</h3>
@@ -662,9 +712,8 @@
                         <a href="#contact" class="btn">Solicitar</a>
                     </div>
                 </div>
-                
-                <!-- Site Institucional -->
-                <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+
+                <div class="service-card">
                     <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Site Institucional">
                     <div class="service-content">
                         <h3>Site Institucional</h3>
@@ -673,9 +722,8 @@
                         <a href="#contact" class="btn">Solicitar</a>
                     </div>
                 </div>
-                
-                <!-- Loja Virtual -->
-                <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+
+                <div class="service-card">
                     <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Loja Virtual">
                     <div class="service-content">
                         <h3>Loja Virtual</h3>
@@ -684,30 +732,32 @@
                         <a href="#contact" class="btn">Solicitar</a>
                     </div>
                 </div>
-                <!-- Sistema Web Personalizado -->
-<div class="service-card" data-aos="fade-up" data-aos-delay="500">
-    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Sistema Web">
-    <div class="service-content">
-        <h3>Sistema Web Personalizado</h3>
-        <p>Soluções sob medida para gestão de negócios, CRM, ERP e outros sistemas corporativos.</p>
-        <span class="price">R$ 20.000 - R$ 100.000+</span>
-        <a href="#contact" class="btn">Solicitar</a>
-    </div>
-</div>
 
-<!-- Manutenção e Suporte -->
-<div class="service-card" data-aos="fade-up" data-aos-delay="600">
-    <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Manutenção e Suporte">
-    <div class="service-content">
-        <h3>Manutenção e Suporte</h3>
-        <p>Pacotes mensais para manutenção, atualizações e suporte técnico para seu site ou aplicativo.</p>
-        <span class="price">R$ 500 - R$ 3.000/mês</span>
-        <a href="#contact" class="btn">Solicitar</a>
-    </div>
-</div>
+                <div class="service-card">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Sistema Web">
+                    <div class="service-content">
+                        <h3>Sistema Web Personalizado</h3>
+                        <p>Soluções sob medida para gestão de negócios, CRM, ERP e outros sistemas corporativos.</p>
+                        <span class="price">R$ 20.000 - R$ 100.000+</span>
+                        <a href="#contact" class="btn">Solicitar</a>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Manutenção e Suporte">
+                    <div class="service-content">
+                        <h3>Manutenção e Suporte</h3>
+                        <p>Pacotes mensais para manutenção, atualizações e suporte técnico para seu site ou aplicativo.</p>
+                        <span class="price">R$ 500 - R$ 3.000/mês</span>
+                        <a href="#contact" class="btn">Solicitar</a>
+                    </div>
+                </div>
             </div>
+            <button class="carousel-btn prev">&#10094;</button>
+            <button class="carousel-btn next">&#10095;</button>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- Processo -->
     <section id="process" class="process">
@@ -961,6 +1011,28 @@
                 card.querySelector('.btn').style.backgroundColor = '';
             });
         });
+        <script>
+    const track = document.querySelector('.carousel-track');
+    const prevBtn = document.querySelector('.carousel-btn.prev');
+    const nextBtn = document.querySelector('.carousel-btn.next');
+    const cardWidth = document.querySelector('.service-card').offsetWidth + 20; // largura + margem
+    let currentIndex = 0;
+
+    prevBtn.addEventListener('click', () => {
+        if(currentIndex > 0) {
+            currentIndex--;
+            track.style.transform = `translateX(-${cardWidth * currentIndex}px)`;
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if(currentIndex < track.children.length - 1) {
+            currentIndex++;
+            track.style.transform = `translateX(-${cardWidth * currentIndex}px)`;
+        }
+    });
+</script>
+
     </script>
 </body>
 </html>
