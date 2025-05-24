@@ -713,6 +713,122 @@
         .service-card:hover .btn {
             background-color: var(--primary-light);
         }
+         /* Estilos do Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 2000;
+            overflow-y: auto;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.3);
+            transform: translateY(-50px);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+        
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h3 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin: 0;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: color 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: var(--warning);
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .modal-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .modal-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .feature-icon {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-top: 3px;
+        }
+        
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            text-align: right;
+        }
+        
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+            }
+            
+            .modal-header h3 {
+                font-size: 1.5rem;
+            }
+            
+            .modal-features {
+                grid-template-columns: 1fr;
+            }
+        }
 
     </style>
 </head>
@@ -740,24 +856,7 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content" data-aos="fade-right">
-                <h1>Soluções Digitais Sob Medida</h1>
-                <p>Desenvolvemos sistemas web e aplicativos mobile que impulsionam seu negócio com tecnologia de ponta e design intuitivo.</p>
-                <div class="hero-buttons">
-                    <a href="#contact" class="btn">Solicitar Orçamento</a>
-                    <a href="#services" class="btn btn-outline">Nossos Serviços</a>
-                </div>
-            </div>
-            
-            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Desenvolvimento Web" class="hero-image" data-aos="fade-left">
-        </div>
-    </section>
-
- <!-- Serviços - Versão Aprimorada -->
-    <section id="services" class="services">
+<section id="services" class="services">
         <div class="container">
             <div class="section-title" data-aos="fade-up">
                 <h2>Nossos Serviços</h2>
@@ -768,68 +867,97 @@
                 <button class="carousel-btn prev" aria-label="Slide anterior">&#10094;</button>
                 
                 <div class="carousel-container" id="carouselContainer">
-                    <!-- Card 1 -->
-                    <div class="service-card">
+                    <!-- Card 1 - Landing Page -->
+                    <div class="service-card" data-service="landing-page">
                         <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Landing Page" loading="lazy">
                         <div class="service-content">
                             <h3>Landing Page</h3>
                             <p>Página única de alta conversão para capturar leads ou promover seu produto/serviço.</p>
                             <span class="price">R$ 1.200 - R$ 3.000</span>
-                            <a href="#contact" class="btn">Solicitar</a>
+                            <button class="btn btn-details">Detalhes</button>
                         </div>
                     </div>
 
-                    <!-- Card 2 -->
-                    <div class="service-card">
+                    <!-- Card 2 - Site Institucional -->
+                    <div class="service-card" data-service="site-institucional">
                         <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Site Institucional" loading="lazy">
                         <div class="service-content">
                             <h3>Site Institucional</h3>
                             <p>Site completo para apresentar sua empresa com profissionalismo e credibilidade.</p>
                             <span class="price">R$ 3.500 - R$ 8.000</span>
-                            <a href="#contact" class="btn">Solicitar</a>
+                            <button class="btn btn-details">Detalhes</button>
                         </div>
                     </div>
 
-                    <!-- Card 3 -->
-                    <div class="service-card">
+                    <!-- Card 3 - Loja Virtual -->
+                    <div class="service-card" data-service="loja-virtual">
                         <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Loja Virtual" loading="lazy">
                         <div class="service-content">
                             <h3>Loja Virtual</h3>
                             <p>Plataforma completa para vender seus produtos online com segurança e eficiência.</p>
                             <span class="price">R$ 8.000 - R$ 25.000</span>
-                            <a href="#contact" class="btn">Solicitar</a>
+                            <button class="btn btn-details">Detalhes</button>
                         </div>
                     </div>
 
-                    <!-- Card 4 -->
-                    <div class="service-card">
+                    <!-- Card 4 - Sistema Web -->
+                    <div class="service-card" data-service="sistema-web">
                         <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Sistema Web" loading="lazy">
                         <div class="service-content">
                             <h3>Sistema Web Personalizado</h3>
                             <p>Soluções sob medida para gestão de negócios, CRM, ERP e outros sistemas corporativos.</p>
                             <span class="price">R$ 20.000 - R$ 100.000+</span>
-                            <a href="#contact" class="btn">Solicitar</a>
+                            <button class="btn btn-details">Detalhes</button>
                         </div>
                     </div>
 
-                    <!-- Card 5 -->
-                    <div class="service-card">
+                    <!-- Card 5 - Manutenção -->
+                    <div class="service-card" data-service="manutencao">
                         <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Manutenção e Suporte" loading="lazy">
                         <div class="service-content">
                             <h3>Manutenção e Suporte</h3>
                             <p>Pacotes mensais para manutenção, atualizações e suporte técnico para seu site ou aplicativo.</p>
                             <span class="price">R$ 500 - R$ 3.000/mês</span>
-                            <a href="#contact" class="btn">Solicitar</a>
+                            <button class="btn btn-details">Detalhes</button>
                         </div>
                     </div>
                 </div>
                 
                 <button class="carousel-btn next" aria-label="Próximo slide">&#10095;</button>
-                
                 <div class="carousel-nav" id="carouselNav"></div>
             </div>
         </div>
     </section>
+
+    <!-- Modal de Detalhes -->
+    <div class="modal" id="serviceModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Título do Serviço</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <img id="modalImage" src="" alt="" class="modal-image">
+                <p id="modalDescription">Descrição detalhada do serviço...</p>
+                
+                <h4>Recursos Principais</h4>
+                <div class="modal-features" id="modalFeatures">
+                    <!-- Features serão inseridas via JavaScript -->
+                </div>
+                
+                <h4>Tecnologias Utilizadas</h4>
+                <div id="modalTechnologies" class="technologies">
+                    <!-- Tecnologias serão inseridas via JavaScript -->
+                </div>
+                
+                <h4>Tempo de Desenvolvimento</h4>
+                <p id="modalTime">Tempo estimado...</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#contact" class="btn" id="modalContactBtn">Solicitar Orçamento</a>
+            </div>
+        </div>
+    </div>
 
     <!-- Processo -->
     <section id="process" class="process">
@@ -1205,6 +1333,163 @@
                 } else if (touchEndX - touchStartX > threshold) {
                     prevSlide(); // Swipe para a direita
                 }
+            }
+        });
+         // Dados dos serviços
+        const servicesData = {
+            'landing-page': {
+                title: 'Landing Page',
+                image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+                description: 'Desenvolvemos landing pages de alta conversão focadas em resultados. Ideal para campanhas de marketing digital, lançamentos de produtos ou captação de leads qualificados.',
+                features: [
+                    'Design responsivo e otimizado',
+                    'Formulários de captação de leads',
+                    'Integração com ferramentas de marketing',
+                    'Otimização para conversão (CRO)',
+                    'Analytics integrado'
+                ],
+                technologies: ['HTML5', 'CSS3', 'JavaScript', 'React', 'Google Analytics'],
+                time: '7-14 dias úteis',
+                price: 'R$ 1.200 - R$ 3.000'
+            },
+            'site-institucional': {
+                title: 'Site Institucional',
+                image: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+                description: 'Criamos sites institucionais profissionais que transmitem credibilidade e reforçam a identidade visual da sua marca. Perfeito para empresas que querem uma presença digital sólida.',
+                features: [
+                    'Até 10 páginas internas',
+                    'Galeria de imagens e vídeos',
+                    'Blog integrado',
+                    'SEO básico implementado',
+                    'Painel administrativo'
+                ],
+                technologies: ['WordPress', 'PHP', 'MySQL', 'Bootstrap', 'jQuery'],
+                time: '15-30 dias úteis',
+                price: 'R$ 3.500 - R$ 8.000'
+            },
+            'loja-virtual': {
+                title: 'Loja Virtual',
+                image: 'https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+                description: 'Soluções completas de e-commerce com tudo que você precisa para vender online com segurança. Desde lojas simples até marketplaces complexos.',
+                features: [
+                    'Catálogo de produtos ilimitado',
+                    'Carrinho de compras',
+                    'Pagamentos online (Pix, cartão, boleto)',
+                    'Controle de estoque',
+                    'Relatórios de vendas'
+                ],
+                technologies: ['Magento', 'WooCommerce', 'Node.js', 'MongoDB', 'API de Pagamentos'],
+                time: '30-60 dias úteis',
+                price: 'R$ 8.000 - R$ 25.000'
+            },
+            'sistema-web': {
+                title: 'Sistema Web Personalizado',
+                image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+                description: 'Desenvolvemos sistemas sob medida para atender necessidades específicas do seu negócio. Soluções completas de gestão, automação e análise de dados.',
+                features: [
+                    'Desenvolvimento 100% personalizado',
+                    'Painel administrativo completo',
+                    'Relatórios e dashboards',
+                    'Integração com outros sistemas',
+                    'Suporte técnico especializado'
+                ],
+                technologies: ['React', 'Node.js', 'PostgreSQL', 'AWS', 'Docker'],
+                time: 'A partir de 60 dias úteis',
+                price: 'R$ 20.000 - R$ 100.000+'
+            },
+            'manutencao': {
+                title: 'Manutenção e Suporte',
+                image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+                description: 'Pacotes completos de manutenção para garantir que seu site ou aplicativo esteja sempre atualizado, seguro e funcionando perfeitamente.',
+                features: [
+                    'Atualizações de segurança',
+                    'Backups regulares',
+                    'Monitoramento 24/7',
+                    'Suporte técnico prioritário',
+                    'Relatórios mensais'
+                ],
+                technologies: ['Monitoramento', 'Backups', 'Atualizações', 'Otimizações', 'Suporte'],
+                time: 'Contínuo',
+                price: 'R$ 500 - R$ 3.000/mês'
+            }
+        };
+
+        // Modal de Serviços
+        const modal = document.getElementById('serviceModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalImage = document.getElementById('modalImage');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalFeatures = document.getElementById('modalFeatures');
+        const modalTechnologies = document.getElementById('modalTechnologies');
+        const modalTime = document.getElementById('modalTime');
+        const modalContactBtn = document.getElementById('modalContactBtn');
+
+        // Abrir modal ao clicar em um serviço
+        document.querySelectorAll('.btn-details').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const serviceCard = this.closest('.service-card');
+                const serviceId = serviceCard.getAttribute('data-service');
+                const serviceData = servicesData[serviceId];
+                
+                // Preencher modal com os dados
+                modalTitle.textContent = serviceData.title;
+                modalImage.src = serviceData.image;
+                modalImage.alt = serviceData.title;
+                modalDescription.textContent = serviceData.description;
+                
+                // Preencher features
+                modalFeatures.innerHTML = '';
+                serviceData.features.forEach(feature => {
+                    const featureItem = document.createElement('div');
+                    featureItem.className = 'feature-item';
+                    featureItem.innerHTML = `
+                        <i class="fas fa-check-circle feature-icon"></i>
+                        <span>${feature}</span>
+                    `;
+                    modalFeatures.appendChild(featureItem);
+                });
+                
+                // Preencher tecnologias
+                modalTechnologies.innerHTML = '';
+                serviceData.technologies.forEach(tech => {
+                    const techBadge = document.createElement('span');
+                    techBadge.className = 'tech-badge';
+                    techBadge.textContent = tech;
+                    modalTechnologies.appendChild(techBadge);
+                });
+                
+                // Preencher tempo e preço
+                modalTime.textContent = `Tempo estimado: ${serviceData.time} | ${serviceData.price}`;
+                
+                // Configurar botão de contato
+                modalContactBtn.href = `#contact?service=${encodeURIComponent(serviceData.title)}`;
+                
+                // Abrir modal
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        // Fechar modal
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        
+        // Fechar ao clicar fora do conteúdo
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+        
+        // Fechar com ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
             }
         });
 </script>
