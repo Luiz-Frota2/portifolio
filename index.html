@@ -1049,7 +1049,7 @@
                 <p>Solicite um orçamento ou tire suas dúvidas sobre nossos serviços.</p>
             </div>
             
-            <form class="contact-form" data-aos="fade-up" data-aos-delay="100">
+           <form id="contactForm" class="contact-form" data-aos="fade-up" data-aos-delay="100">
                 <div class="form-group">
                     <label for="name">Nome</label>
                     <input type="text" id="name" required>
@@ -1082,10 +1082,10 @@
                     <textarea id="message" required></textarea>
                 </div>
                 
-                <div class="form-group full-width">
-                    <button type="submit" class="btn">Enviar Mensagem</button>
-                </div>
-            </form>
+                 <div class="form-group full-width">
+        <button type="button" id="sendMessageBtn" class="btn">Enviar Mensagem</button>
+    </div>
+</form>
         </div>
     </section>
 
@@ -1564,6 +1564,79 @@
             }
         }
     });
+        // WhatsApp Form Submission
+document.getElementById('sendMessageBtn').addEventListener('click', function() {
+    const form = document.getElementById('contactForm');
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const service = document.getElementById('service').value;
+    const message = document.getElementById('message').value;
+    
+    // Validação básica
+    if (!name || !email || !message || !service) {
+        alert('Por favor, preencha todos os campos obrigatórios.');
+        return;
+    }
+    
+    // Formata a mensagem para o WhatsApp
+    const whatsappMessage = `Olá Codegeek! Gostaria de solicitar um orçamento:
+    
+*Nome:* ${name}
+*E-mail:* ${email}
+*Telefone:* ${phone || 'Não informado'}
+*Serviço de Interesse:* ${document.getElementById('service').options[document.getElementById('service').selectedIndex].text}
+    
+*Mensagem:*
+${message}`;
+    
+    // Codifica a mensagem para URL
+    const encodedMessage = encodeURIComponent(whatsappMessage);
+    
+    // Número de telefone da empresa (substitua pelo número real)
+    const phoneNumber = '5592991515710'; // Substitua pelo número real com código do país
+    
+    // Cria o link do WhatsApp
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+    
+    // Abre em uma nova aba
+    window.open(whatsappUrl, '_blank');
+    
+    // Feedback visual
+    const btn = this;
+    const originalText = btn.textContent;
+    
+    btn.textContent = 'Enviado!';
+    btn.style.backgroundColor = '#4BB543';
+    
+    setTimeout(() => {
+        btn.textContent = originalText;
+        btn.style.backgroundColor = '';
+        form.reset();
+    }, 3000);
+});
+        // Destacar campo de serviço quando vem do modal
+function highlightServiceField(serviceName) {
+    const serviceSelect = document.getElementById('service');
+    for (let i = 0; i < serviceSelect.options.length; i++) {
+        if (serviceSelect.options[i].text === serviceName) {
+            serviceSelect.selectedIndex = i;
+            serviceSelect.classList.add('highlight');
+            setTimeout(() => {
+                serviceSelect.classList.remove('highlight');
+            }, 2000);
+            break;
+        }
+    }
+}
+
+// Modifique a função navigateToContact para usar a nova função
+function navigateToContact(serviceName) {
+    closeModal();
+    const contactSection = document.getElementById('contact');
+    contactSection.scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => highlightServiceField(serviceName), 500);
+}
 </script>
 
 </body>
