@@ -829,6 +829,22 @@
                 grid-template-columns: 1fr;
             }
         }
+         /* Adicione este estilo para destacar o campo preenchido */
+    select.highlight {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.3);
+        transition: all 0.3s ease;
+    }
+    
+    .tech-badge {
+        display: inline-block;
+        background-color: var(--primary-light);
+        color: white;
+        padding: 5px 10px;
+        border-radius: 20px;
+        margin: 5px;
+        font-size: 0.8rem;
+    }
 
     </style>
 </head>
@@ -1414,84 +1430,140 @@
             }
         };
 
-        // Modal de Serviços
-        const modal = document.getElementById('serviceModal');
-        const closeModalBtn = document.getElementById('closeModal');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalImage = document.getElementById('modalImage');
-        const modalDescription = document.getElementById('modalDescription');
-        const modalFeatures = document.getElementById('modalFeatures');
-        const modalTechnologies = document.getElementById('modalTechnologies');
-        const modalTime = document.getElementById('modalTime');
-        const modalContactBtn = document.getElementById('modalContactBtn');
+            // Modal de Serviços
+    const modal = document.getElementById('serviceModal');
+    const closeModalBtn = document.getElementById('closeModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalImage = document.getElementById('modalImage');
+    const modalDescription = document.getElementById('modalDescription');
+    const modalFeatures = document.getElementById('modalFeatures');
+    const modalTechnologies = document.getElementById('modalTechnologies');
+    const modalTime = document.getElementById('modalTime');
+    const modalContactBtn = document.getElementById('modalContactBtn');
 
-        // Abrir modal ao clicar em um serviço
-        document.querySelectorAll('.btn-details').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const serviceCard = this.closest('.service-card');
-                const serviceId = serviceCard.getAttribute('data-service');
-                const serviceData = servicesData[serviceId];
-                
-                // Preencher modal com os dados
-                modalTitle.textContent = serviceData.title;
-                modalImage.src = serviceData.image;
-                modalImage.alt = serviceData.title;
-                modalDescription.textContent = serviceData.description;
-                
-                // Preencher features
-                modalFeatures.innerHTML = '';
-                serviceData.features.forEach(feature => {
-                    const featureItem = document.createElement('div');
-                    featureItem.className = 'feature-item';
-                    featureItem.innerHTML = `
-                        <i class="fas fa-check-circle feature-icon"></i>
-                        <span>${feature}</span>
-                    `;
-                    modalFeatures.appendChild(featureItem);
-                });
-                
-                // Preencher tecnologias
-                modalTechnologies.innerHTML = '';
-                serviceData.technologies.forEach(tech => {
-                    const techBadge = document.createElement('span');
-                    techBadge.className = 'tech-badge';
-                    techBadge.textContent = tech;
-                    modalTechnologies.appendChild(techBadge);
-                });
-                
-                // Preencher tempo e preço
-                modalTime.textContent = `Tempo estimado: ${serviceData.time} | ${serviceData.price}`;
-                
-                // Configurar botão de contato
-                modalContactBtn.href = `#contact?service=${encodeURIComponent(serviceData.title)}`;
-                
-                // Abrir modal
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
+    // Variável para armazenar o serviço selecionado
+    let selectedService = null;
+
+    // Abrir modal ao clicar em um serviço
+    document.querySelectorAll('.btn-details').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const serviceCard = this.closest('.service-card');
+            const serviceId = serviceCard.getAttribute('data-service');
+            const serviceData = servicesData[serviceId];
+            
+            // Armazena o serviço selecionado
+            selectedService = serviceData.title;
+            
+            // Preencher modal com os dados
+            modalTitle.textContent = serviceData.title;
+            modalImage.src = serviceData.image;
+            modalImage.alt = serviceData.title;
+            modalDescription.textContent = serviceData.description;
+            
+            // Preencher features
+            modalFeatures.innerHTML = '';
+            serviceData.features.forEach(feature => {
+                const featureItem = document.createElement('div');
+                featureItem.className = 'feature-item';
+                featureItem.innerHTML = `
+                    <i class="fas fa-check-circle feature-icon"></i>
+                    <span>${feature}</span>
+                `;
+                modalFeatures.appendChild(featureItem);
             });
+            
+            // Preencher tecnologias
+            modalTechnologies.innerHTML = '';
+            serviceData.technologies.forEach(tech => {
+                const techBadge = document.createElement('span');
+                techBadge.className = 'tech-badge';
+                techBadge.textContent = tech;
+                modalTechnologies.appendChild(techBadge);
+            });
+            
+            // Preencher tempo e preço
+            modalTime.textContent = `Tempo estimado: ${serviceData.time} | ${serviceData.price}`;
+            
+            // Configurar botão de contato
+            modalContactBtn.onclick = function() {
+                closeModal();
+                navigateToContact(serviceData.title);
+            };
+            
+            // Abrir modal
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
         });
+    });
 
-        // Fechar modal
-        function closeModal() {
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
+    // Função para navegar até o contato e preencher o serviço
+    function navigateToContact(serviceName) {
+        // Fecha o modal
+        closeModal();
+        
+        // Rola até a seção de contato
+        const contactSection = document.getElementById('contact');
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+        
+        // Preenche o campo de serviço após um pequeno delay para garantir que a animação de scroll termine
+        setTimeout(() => {
+            const serviceSelect = document.getElementById('service');
+            for (let i = 0; i < serviceSelect.options.length; i++) {
+                if (serviceSelect.options[i].text === serviceName) {
+                    serviceSelect.selectedIndex = i;
+                    break;
+                }
+            }
+            
+            // Adiciona uma classe para destacar o campo preenchido
+            serviceSelect.classList.add('highlight');
+            setTimeout(() => {
+                serviceSelect.classList.remove('highlight');
+            }, 2000);
+        }, 500);
+    }
+
+    // Fechar modal (mantenha as funções existentes)
+    function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+
+    closeModalBtn.addEventListener('click', closeModal);
+    
+    // Fechar ao clicar fora do conteúdo
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModal();
         }
+    });
+    
+    // Fechar com ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
 
-        closeModalBtn.addEventListener('click', closeModal);
+    // Verifica parâmetros na URL ao carregar a página
+    window.addEventListener('load', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const serviceParam = urlParams.get('service');
         
-        // Fechar ao clicar fora do conteúdo
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                closeModal();
+        if (serviceParam) {
+            const serviceSelect = document.getElementById('service');
+            for (let i = 0; i < serviceSelect.options.length; i++) {
+                if (serviceSelect.options[i].text === decodeURIComponent(serviceParam)) {
+                    serviceSelect.selectedIndex = i;
+                    serviceSelect.classList.add('highlight');
+                    setTimeout(() => {
+                        serviceSelect.classList.remove('highlight');
+                    }, 2000);
+                    break;
+                }
             }
-        });
-        
-        // Fechar com ESC
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && modal.classList.contains('active')) {
-                closeModal();
-            }
-        });
+        }
+    });
 </script>
 
 </body>
